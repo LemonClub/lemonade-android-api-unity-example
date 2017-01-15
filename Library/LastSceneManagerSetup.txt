@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Example/Scenes/Login.unity
+  isLoaded: 1
+  isActive: 1
