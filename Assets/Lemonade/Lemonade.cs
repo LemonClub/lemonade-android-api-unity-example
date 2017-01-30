@@ -7,24 +7,13 @@ namespace LA.Unity
     {
         public static string accessToken = "";
 
-        public static bool isAndroidInit
-        {
-            private set { isAndroidInit = value; }
-            get { return isAndroidInit; }
-        }
-        public static bool isUnityInit
-        {
-            private set { isUnityInit = value; }
-            get { return isUnityInit; }
-        }
-        public static bool isLoggedIn
-        {
-            private set { isLoggedIn = value; }
-            get { return isLoggedIn; }
-        }
+        private static bool m_isAndroidInit;
+        private static bool m_isUnityInit;
+        private static bool m_isLoggedIn;
+
         public static bool isInitialized            // 내부 & 외부 모두 초기화 선언이 되었는지 확인
         {
-            get { return isAndroidInit && isUnityInit; }
+            get { return (m_isAndroidInit && m_isUnityInit); }
         }
 
         private static AndroidJavaObject _plugin = null;
@@ -38,14 +27,14 @@ namespace LA.Unity
             {
                 Debug.LogWarning("There are no \"_Lemonade\" Gameobject");
             }
-#if     UNITY_ANDROID
+#if     UNITY_EDITOR
+#elif   UNITY_ANDROID
             AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             _plugin = jc.GetStatic<AndroidJavaObject>("currentActivity");
-#elif   UNITY_EDITOR
+#else
 #endif
         }
         
-
         public delegate void InitDelegate();
         static InitDelegate failDelegate;
         static InitDelegate successDelegate;
@@ -55,14 +44,15 @@ namespace LA.Unity
          */
         public static void init()
         {
-            isAndroidInit = false;
-            isUnityInit = false;
-            isLoggedIn = false;
+            m_isAndroidInit = false;
+            m_isUnityInit = false;
+            m_isLoggedIn = false;
 
-#if     UNITY_ANDROID
+#if     UNITY_EDITOR
+#elif   UNITY_ANDROID
             _plugin.Call("init", accessToken);
             isUnityInit = true;
-#elif   UNITY_EDITOR
+#else
 #endif
         }
         /**
@@ -93,10 +83,11 @@ namespace LA.Unity
         {
             if (isInitialized)
             {
-#if UNITY_ANDROID
+#if     UNITY_EDITOR
+#elif   UNITY_ANDROID
                 _plugin.Call("Connect", _plugin);
                 isLoggedIn = true;
-#elif UNITY_EDITOR
+#else
 #endif
             }
         }
@@ -109,10 +100,10 @@ namespace LA.Unity
         {
             if (isInitialized)
             {
-#if UNITY_ANDROID
+#if     UNITY_EDITOR
+#elif   UNITY_ANDROID
                 _plugin.Call("DisConnect", _plugin);
                 isLoggedIn = true;
-#elif UNITY_EDITOR
 #endif
             }
         }
@@ -124,7 +115,7 @@ namespace LA.Unity
         {
             if (androidInit.Equals("true"))
             {
-                isAndroidInit = true;
+                m_isAndroidInit = true;
                 successDelegate();
                 failDelegate = null;
             }
@@ -136,21 +127,18 @@ namespace LA.Unity
         }
         #endregion
 
-
+        static LA.User.UserInfo _user;
         public static string playerName
         {
-            private set { playerName = value; }
-            get { return playerName; }
+            get { return _user.playerName; }
         }
         public static int playerAge
         {
-            private set { playerAge = value; }
-            get { return playerAge; }
+            get { return _user.playerAge; }
         }
         public static string playerSex
         {
-            private set { playerSex = value; }
-            get { return playerSex; }
+            get { return _user.playerSex; }
         }
         #region _EDITION_0_API_
         /**
@@ -159,7 +147,8 @@ namespace LA.Unity
          */
         public static void initPlayerInfo_0()
         {
-#if UNITY_ANDROID
+#if     UNITY_EDITOR
+#elif   UNITY_ANDROID
             _plugin.Call("initPlayerInfo_0");
 #endif
         }
@@ -188,17 +177,17 @@ namespace LA.Unity
          * @brief 사용중인 유저 이름 받아오기 ( 내부에서 작동 )
          * @param name 유저 이름
          */
-        public void setPlayerName(string name) { playerName = name; }
+        public void setPlayerName(string name) { _user.playerName = name; }
         /**
          * @brief 사용중인 유저 나이 받아오기
          * @param age 유저 나이
          */
-        public void setPlayerAge(string age) { playerAge = System.Convert.ToInt32(age); }
+        public void setPlayerAge(string age) { _user.playerAge = System.Convert.ToInt32(age); }
         /**
          * @brief 사용중인 유저 나이 받아오기
          * @param sex 유저 성별 (  남자 : "Boy"  ||  여자 : "Girl"  )
          */
-        public void setPlayerSex(string sex) { playerSex = sex; }
+        public void setPlayerSex(string sex) { _user.playerSex = sex; }
         /**
          * @brief 모든 정보 전달이 끝났을 경우 위 함수가 호출 됨
          * @param msg 성공 여부 메세지
@@ -209,18 +198,14 @@ namespace LA.Unity
             else { failDelegate(); successDelegate = null; }
         }
         #endregion
-
-
-
+                
         public static string playerEmail
         {
-            private set { playerEmail = value; }
-            get { return playerEmail; }
+            get { return _user.playerEmail; }
         }
         public static string playerCP
         {
-            private set { playerCP = value; }
-            get { return playerCP; }
+            get { return _user.playerCP; }
         }
         #region _EDITION_1_API_
         /**
@@ -229,7 +214,8 @@ namespace LA.Unity
          */
         public static void initPlayerInfo_1()
         {
-#if UNITY_ANDROID
+#if     UNITY_EDITOR
+#elif   UNITY_ANDROID
             _plugin.Call("initPlayerInfo_1");
 #endif
         }
@@ -258,12 +244,12 @@ namespace LA.Unity
          * @brief 사용중인 유저 이메일 받아오기
          * @param email 이메일
          */
-        public void setPlayerEmail(string email) { playerEmail = email; }
+        public void setPlayerEmail(string email) { _user.playerEmail = email; }
         /**
          * @brief 사용중인 유저 번호 받아오기
          * @param CP 핸드폰 번호
          */
-        public void setPlayerCP(string CP) { playerCP = CP; }
+        public void setPlayerCP(string CP) { _user.playerCP = CP; }
         /**
          * @brief 모든 정보 전달이 끝났을 경우 위 함수가 호출 됨
          * @param msg 성공 여부 메세지
@@ -272,23 +258,20 @@ namespace LA.Unity
         {
             if (msg.Equals("true")) { successDelegate(); failDelegate = null; }
             else { failDelegate(); successDelegate = null; }
-        }
+        } 
         #endregion
-
-
-
+        
         #region _EDITION_2_API_
         #endregion
-
-
-
+        
         #region _ANDROID_API_
         /**
          * @brief 토스트 메세지 띄우기
          */
         public static void toast(string msg)
         {
-#if UNITY_ANDROID
+#if     UNITY_EDITOR
+#elif   UNITY_ANDROID
             _plugin.Call("ToastMessage", msg);
 #endif
         }

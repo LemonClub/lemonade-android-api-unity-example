@@ -4,9 +4,11 @@ using LA.Unity;
 
 public class ExGame : MonoBehaviour
 {
-
+    LA.API cc = new LA.API();
     void Start()
     {
+        //StartCoroutine(cc.w(calll));
+
         Lemonade.accessToken = "bGVtb25uZXQubGVtb250cmVlLmxlbW9u";
 
         if (!Lemonade.isInitialized)
@@ -20,6 +22,10 @@ public class ExGame : MonoBehaviour
         Lemonade.Login();
     }
 
+    public void calll(string ss)
+    {
+        Debug.Log(ss);
+    }
 
 
     void OnGUI()
