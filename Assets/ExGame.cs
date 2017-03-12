@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 using LA.Unity;
+using System.Collections.Generic;
 
 public class ExGame : MonoBehaviour
 {
-    LA.API cc = new LA.API();
     void Start()
     {
-        //StartCoroutine(cc.w(calll));
-
-        Lemonade.accessToken = "bGVtb25uZXQubGVtb250cmVlLmxlbW9u";
+        StartCoroutine(Lemonade.API.getUserInfo(callFunc));
 
         if (!Lemonade.isInitialized)
             Lemonade.init(finishInitLogin);
@@ -22,18 +19,19 @@ public class ExGame : MonoBehaviour
         Lemonade.Login();
     }
 
-    public void calll(string ss)
+    public void callFunc(Dictionary<string, object> userInfo)
     {
-        Debug.Log(ss);
-    }
+        // 권한이 없는 정보를 사용하려 하면 ERROR가 생김
+        Debug.Log(userInfo["token"]);       // 보안 0
+        Debug.Log(userInfo["name"]);        //   "
+        Debug.Log(userInfo["age"]);         //   "
+        Debug.Log(userInfo["sex"]);         //   "
 
+        Debug.Log(userInfo["email"]);       // 보안 1
+        Debug.Log(userInfo["CP"]);          //   "
+        Debug.Log(userInfo["achieve"]);     //   "
+        Debug.Log(userInfo["friends"]);     //   "
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(0, 0, 100, 50), Lemonade.playerName);
-        GUI.Label(new Rect(0, 0, 100, 50), Lemonade.playerEmail);
-        GUI.Label(new Rect(0, 0, 100, 50), Lemonade.playerSex);
-        GUI.Label(new Rect(0, 0, 100, 50), Lemonade.playerEmail);
-        GUI.Label(new Rect(0, 0, 100, 50), Lemonade.playerCP);
+        Debug.Log(userInfo["games"]);       // 보안 2
     }
 }

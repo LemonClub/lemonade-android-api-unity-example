@@ -1,11 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace LA.Unity
 {
     public sealed class Lemonade : MonoBehaviour
     {
-        public static string accessToken = "";
+        public static LA.API API = new LA.API();
+        static string token = "bGVtb25uZXQubGVtb250cmVlLmxlbW9u";      // 이곳에 게임 토큰을 적어주세요.
+        public static string accessToken
+        {
+            get
+            {
+                if (token.Equals(""))
+                {
+                    Debug.LogWarning("There are no \"accessToken\" value");
+                    return "";
+                }
+                else
+                {
+                    return token;
+                }
+            }
+        }
 
         private static bool m_isAndroidInit;
         private static bool m_isUnityInit;
@@ -33,8 +48,9 @@ namespace LA.Unity
             _plugin = jc.GetStatic<AndroidJavaObject>("currentActivity");
 #else
 #endif
+            StartCoroutine(API.init(accessToken));
         }
-        
+
         public delegate void InitDelegate();
         static InitDelegate failDelegate;
         static InitDelegate successDelegate;
@@ -48,8 +64,9 @@ namespace LA.Unity
             m_isUnityInit = false;
             m_isLoggedIn = false;
 
-#if     UNITY_EDITOR
-#elif   UNITY_ANDROID
+
+#if UNITY_EDITOR
+#elif UNITY_ANDROID
             _plugin.Call("init", accessToken);
             isUnityInit = true;
 #else
@@ -198,7 +215,7 @@ namespace LA.Unity
             else { failDelegate(); successDelegate = null; }
         }
         #endregion
-                
+
         public static string playerEmail
         {
             get { return _user.playerEmail; }
@@ -258,12 +275,12 @@ namespace LA.Unity
         {
             if (msg.Equals("true")) { successDelegate(); failDelegate = null; }
             else { failDelegate(); successDelegate = null; }
-        } 
+        }
         #endregion
-        
+
         #region _EDITION_2_API_
         #endregion
-        
+
         #region _ANDROID_API_
         /**
          * @brief 토스트 메세지 띄우기
