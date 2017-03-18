@@ -1,24 +1,26 @@
 # Lemonade API
-+ [Lemonade ¸ÞÀÎ »çÀÌÆ®](http://lemontree.dothome.co.kr/lemonade/)
++ [Lemonade ë©”ì¸ ì‚¬ì´íŠ¸](http://lemontree.dothome.co.kr/lemonade/)
++ [ê¸°ë³¸ API í•¨ìˆ˜ ì„¤ëª…ì„œ](https://github.com/kyechan99/lemonade-android-api-unity-example/wiki/Lemonade-API)
++ ì´ë©”ì¼ ì£¼ì†Œ : kyechan99@naver.com
 
-## ÇÊ¼ö º¯°æ »çÇ×
-1. Lemonade.token ¿¡ °ø±Þ¹ÞÀº accessToken À» ÀÔ·ÂÇÔ.
+## í•„ìˆ˜ ë³€ê²½ ì‚¬í•­
+1. Lemonade.token ì— ê³µê¸‰ë°›ì€ accessToken ì„ ìž…ë ¥í•¨.
 
    >![Example](http://postfiles13.naver.net/MjAxNzAzMTJfMTUy/MDAxNDg5MzExMDIwMjg1.NA1AuT_q0IUa4_gV5vtUhePpt4oND3m8JI2kNnDVC5Mg.37O5fU-y6Kl9LfsoAAexury8caTCIVOcRJmQfeYhTgUg.PNG.kyechan99/1.PNG?type=w1)
 
 
 2. Assets/Plugins/Android/res/AndroidManifest.xml 
 
-## À¯Àú Á¤º¸ ¹Þ¾Æ¿À±â
-1. À¯Àú Á¤º¸¸¦ ¹Þ¾Æ¿Ã¶§ »ç¿ëÇÏ´Â ÇÔ¼ö Lemonade.API.getUserInfo() ´Â Coroutine À¸·Î È£ÃâÇØ ÁÖ¾î¾ß ÇÔ
->StartCoroutine(Lemonade.API.getUserInfo(callFunc));
+## ìœ ì € ì •ë³´ ë°›ì•„ì˜¤ê¸°
+1. ìœ ì € ì •ë³´ë¥¼ ë°›ì•„ì˜¬ë•Œ ì‚¬ìš©í•˜ëŠ” í•¨ìˆ˜ Lemonade.API.getUserInfo() ëŠ” Coroutine ìœ¼ë¡œ í˜¸ì¶œí•´ ì£¼ì–´ì•¼ í•¨
+   >StartCoroutine(Lemonade.API.getUserInfo(callFunc));
 
-2. callFunc ´Â Dictionary<string, object> Å¸ÀÔÀ» ¸Å°³º¯¼ö·Î ¹Þ´Â ÇÔ¼ö°¡ µé¾î°¡¾ß ÇÑ´Ù.
->void callFunc(Dictionary<string, object> userInfo)
->{
->}
+2. callFunc ëŠ” Dictionary<string, object> íƒ€ìž…ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ëŠ” í•¨ìˆ˜ê°€ ë“¤ì–´ê°€ì•¼ í•œë‹¤.
+   >void callFunc(Dictionary<string, object> userInfo)
+   >{
+   >}
 
-3. Dictionary<string, object>Çü º¯¼ö¿¡´Â À¯Àú Á¤º¸°¡ ÀÔ·ÂµÇ¸ç ¾Æ·¡¿Í °°ÀÌ °¡Á®¿Ã¼ö ÀÖ´Ù.
+3. Dictionary<string, object>í˜• ë³€ìˆ˜ì—ëŠ” ìœ ì € ì •ë³´ê°€ ìž…ë ¥ë˜ë©° ì•„ëž˜ì™€ ê°™ì´ ê°€ì ¸ì˜¬ìˆ˜ ìžˆë‹¤.
 
    >![Example](http://postfiles12.naver.net/MjAxNzAzMTJfMjYw/MDAxNDg5MzExMDIwNTQz.UTavQYEmsMRD3rBeVGs4hukbvM5acxsGjV-SJcanaWMg.a9-wRh8bylGkMJzp1E3XvA0lkbJiJ9w2mkAE6grRyh0g.PNG.kyechan99/2.PNG?type=w1)
 
