@@ -6,17 +6,19 @@ public class ExGame : MonoBehaviour
 {
     void Start()
     {
-        StartCoroutine(Lemonade.API.getUserInfo(callFunc));
-
         if (!Lemonade.isInitialized)
-            Lemonade.init(finishInitLogin);
+            Lemonade.init(failedInit, successInit);
         else
             Lemonade.Login();
     }
 
-    public void finishInitLogin()
+    public void successInit()
     {
         Lemonade.Login();
+    }
+    public void failedInit()
+    {
+        Debug.Log("FAIL");
     }
 
     public void callFunc(Dictionary<string, object> userInfo)
