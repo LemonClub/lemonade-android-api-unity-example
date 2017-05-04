@@ -5,7 +5,7 @@ namespace LA.Unity
     public sealed class Lemonade : MonoBehaviour
     {
         public static LA.API API = new LA.API();
-        static string token = "bGVtb25uZXQubGVtb250cmVlLmxlbW9u";      // 이곳에 게임 토큰을 적어주세요.
+        static string token = "bGVtb25jb20ubGVtb250cmVlLmxlbW9u";      // 이곳에 게임 토큰을 적어주세요.
         public static string accessToken
         {
             get
@@ -63,12 +63,19 @@ namespace LA.Unity
             m_isAndroidInit = false;
             m_isUnityInit = false;
             m_isLoggedIn = false;
-
-
+            
 #if UNITY_EDITOR
+            ///
+            /// Unity EDITOR 버전에서 안드로이드 과정을 거치지 않고 테스트 하기 위한 부분입니다.
+            /// 
+            m_isUnityInit = true;
+            LA.User.Lemon._user.playerToken = "testtoken";
+            m_isAndroidInit = true;
+            if (successDelegate != null)
+                successDelegate();
 #elif UNITY_ANDROID
             _plugin.Call("init", accessToken);
-            isUnityInit = true;
+            m_isUnityInit = true;
 #else
 #endif
         }
@@ -78,8 +85,8 @@ namespace LA.Unity
         /// <param name="success">초기화 성공 이후 이루어질 함수 ( 함수 실행이 바로 이루어 질수 있게 함 )</param>
         public static void init(InitDelegate success)
         {
-            init();
             successDelegate = success;
+            init();
         }
         /// <summary>
         /// 프로그램 초기화
@@ -88,8 +95,8 @@ namespace LA.Unity
         /// <param name="success">초기화 성공 이후 이루어질 함수</param>
         public static void init(InitDelegate fail, InitDelegate success)
         {
-            init(success);
             failDelegate = success;
+            init(success);
         }
 
         /// <summary>
@@ -101,9 +108,10 @@ namespace LA.Unity
             if (isInitialized)
             {
 #if     UNITY_EDITOR
+                m_isLoggedIn = true;
 #elif   UNITY_ANDROID
                 _plugin.Call("Connect", _plugin);
-                isLoggedIn = true;
+                m_isLoggedIn = true;
 #else
 #endif
             }
@@ -118,9 +126,10 @@ namespace LA.Unity
             if (isInitialized)
             {
 #if     UNITY_EDITOR
+                m_isLoggedIn = true;
 #elif   UNITY_ANDROID
                 _plugin.Call("DisConnect", _plugin);
-                isLoggedIn = true;
+                m_isLoggedIn = true;
 #endif
             }
         }
@@ -131,18 +140,21 @@ namespace LA.Unity
         /// <param name="androidInit">안드로이드 초기화가 제대로 이루어졌는지 확인, 올바르게 되었다면 '유저토큰'이 전달받음</param>
         public void ReceiveInit(string androidInit)
         {
-            if (!androidInit.Equals("FAIL"))
+            if (androidInit.Equals("FAIL"))
             {
-                LA.User.Lemon._user.playerToken = androidInit;
-                m_isAndroidInit = true;
-                successDelegate();
-                failDelegate = null;
+                if (failDelegate != null)
+                    failDelegate();
+                successDelegate = null;
             }
             else
             {
-                failDelegate();
-                successDelegate = null;
+                LA.User.Lemon._user.playerToken = androidInit;
+                m_isAndroidInit = true;
+                if (successDelegate != null)
+                    successDelegate();
             }
+            failDelegate = null;
+            successDelegate = null;
         }
         #endregion
 
