@@ -1,6 +1,6 @@
 # Lemonade API
 + [Lemonade 메인 사이트](http://lemontree.dothome.co.kr/lemonade/)
-+ [기본 API 함수 설명서](https://github.com/kyechan99/lemonade-android-api-unity-example/wiki/Lemonade-API)
++ [기본 API 함수 설명서](https://github.com/kyechan99/lemonade-android-api-unity-example/wiki)
 + 이메일 주소 : kyechan99@naver.com
 
 ## 필수 변경 사항
