@@ -5,7 +5,7 @@ namespace LA.Unity
     public sealed class Lemonade : MonoBehaviour
     {
         public static LA.API API = new LA.API();
-        static string token = "bGVtb25jb20ubGVtb250cmVlLmxlbW9u";      // 이곳에 게임 토큰을 적어주세요.
+        static string token = "bGVtb25jb20ubGVtb24ubGVtb24=";      // 이곳에 게임 토큰을 적어주세요.
         public static string accessToken
         {
             get

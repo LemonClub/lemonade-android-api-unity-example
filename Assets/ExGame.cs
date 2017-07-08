@@ -24,12 +24,12 @@ public class ExGame : MonoBehaviour
 
     public void failedInit()
     {
-        Debug.Log("FAIL");
         te.text = "FAIL";
     }
 
     public void callFunc(LA.User.UserInfo userInfo)
     {
+        Debug.Log("SUss");
         // 권한이 없는 정보를 사용하려 하면 ERROR가 생김
         te.text = userInfo.playerToken;
 
@@ -40,8 +40,8 @@ public class ExGame : MonoBehaviour
 
         Debug.Log(userInfo.playerEmail);       // 보안 1
         Debug.Log(userInfo.playerCP);          //   "
-        Debug.Log(userInfo.playerAchievement);     //   "
-        Debug.Log(userInfo.playerFollower);     //   "
+        Debug.Log(userInfo.playerAchievement); //   "
+        Debug.Log(userInfo.playerFollower);    //   "
 
         Debug.Log(userInfo.playerGames);       // 보안 2
     }
