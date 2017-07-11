@@ -5,7 +5,7 @@ namespace LA.Unity
     public sealed class Lemonade : MonoBehaviour
     {
         public static LA.API API = new LA.API();
-        static string token = "bGVtb25jb20ubGVtb24ubGVtb24=";      // 이곳에 게임 토큰을 적어주세요.
+        static string token = "aGlrY29tLmhvdC5oaWs=";      // 이곳에 게임 토큰을 적어주세요.
         public static string accessToken
         {
             get
@@ -91,11 +91,11 @@ namespace LA.Unity
         /// <summary>
         /// 프로그램 초기화
         /// </summary>
-        /// <param name="fail">초기화 실패 이후 이루어질 함수</param>
         /// <param name="success">초기화 성공 이후 이루어질 함수</param>
-        public static void init(InitDelegate fail, InitDelegate success)
+        /// <param name="fail">초기화 실패 이후 이루어질 함수</param>
+        public static void init(InitDelegate success, InitDelegate fail)
         {
-            failDelegate = success;
+            failDelegate = fail;
             init(success);
         }
 

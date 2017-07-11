@@ -11,7 +11,7 @@ public class ExGame : MonoBehaviour
     void Start()
     {
         if (!Lemonade.isInitialized)
-            Lemonade.init(failedInit, successInit);
+            Lemonade.init(successInit, failedInit);
         else
             Lemonade.Login();
     }
@@ -20,6 +20,7 @@ public class ExGame : MonoBehaviour
     {
         Lemonade.Login();
         StartCoroutine(Lemonade.API.getUserInfo(Lemon._user.playerToken, callFunc));
+        StartCoroutine(Lemonade.API.getDatabaseC("*", "322a8112f7647a00e4b029edce83950f"));
     }
 
     public void failedInit()
@@ -29,7 +30,6 @@ public class ExGame : MonoBehaviour
 
     public void callFunc(LA.User.UserInfo userInfo)
     {
-        Debug.Log("SUss");
         // 권한이 없는 정보를 사용하려 하면 ERROR가 생김
         te.text = userInfo.playerToken;
 
