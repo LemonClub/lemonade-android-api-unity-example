@@ -18,15 +18,24 @@ public class ExGame : MonoBehaviour
 
     public void successInit()
     {
+        //! Login
         Lemonade.Login();
+
+        //! Get User Info
         StartCoroutine(Lemonade.API.getUserInfo(Lemon._user.playerToken, callFunc));
-        
+
         Dictionary<string, object> dic = new Dictionary<string, object>();
-        dic.Add("INVEN", 1000);
-        dic.Add("SKILL", 3000);
+        dic.Add("INVEN", 500);
+        dic.Add("SKILL", 600);
+
+        //! Custom Database Add
         StartCoroutine(Lemonade.API.addDatabaseC(dic));
 
-        StartCoroutine(Lemonade.API.getDatabaseC("-", "322a8112f7647a00e4b029edce83950f"));
+        //! Custom Database Fix
+        StartCoroutine(Lemonade.API.fixDatabaseC(dic));
+
+        //! Custom Database Get
+        StartCoroutine(Lemonade.API.getDatabaseC("*", "322a8112f7647a00e4b029edce83950f"));
     }
 
     public void failedInit()
